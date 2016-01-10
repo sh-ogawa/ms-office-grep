@@ -1,6 +1,6 @@
-package jp.sh4.ooga.grep.word;
+package jp.sh4.ooga.ms.grep.word;
 
-import jp.sh4.ooga.grep.SearchTypes;
+import jp.sh4.ooga.ms.grep.SearchTypes;
 import org.junit.Before;
 import org.junit.Test;
 

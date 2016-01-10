@@ -1,4 +1,4 @@
-package jp.sh4.ooga.grep;
+package jp.sh4.ooga.ms.grep;
 
 /**
  * 検索モードを列挙する

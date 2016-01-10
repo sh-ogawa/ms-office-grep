@@ -1,6 +1,6 @@
-package jp.sh4.ooga.grep.comparison;
+package jp.sh4.ooga.ms.grep.comparison;
 
-import jp.sh4.ooga.grep.SearchTypes;
+import jp.sh4.ooga.ms.grep.SearchTypes;
 
 /**
  * Grep検索において文字列比較を行う

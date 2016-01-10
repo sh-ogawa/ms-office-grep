@@ -1,15 +1,8 @@
 import java.io.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import jp.sh4.ooga.grep.SearchTypes;
-import jp.sh4.ooga.grep.excel.ExcelGrep;
-import jp.sh4.ooga.grep.word.WordGrep;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import jp.sh4.ooga.ms.grep.SearchTypes;
+import jp.sh4.ooga.ms.grep.excel.ExcelGrep;
+import jp.sh4.ooga.ms.grep.word.WordGrep;
 
 /**
  * エクセルファイルのgrepツール。

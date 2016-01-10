@@ -1,4 +1,4 @@
-package jp.sh4.ooga.grep.out;
+package jp.sh4.ooga.ms.grep.out;
 
 
 import java.io.IOException;

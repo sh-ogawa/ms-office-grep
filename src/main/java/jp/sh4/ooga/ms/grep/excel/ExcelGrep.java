@@ -1,14 +1,12 @@
-package jp.sh4.ooga.grep.word;
+package jp.sh4.ooga.ms.grep.excel;
 
-import jp.sh4.ooga.grep.SearchTypes;
-import jp.sh4.ooga.grep.comparison.StringComparison;
-import jp.sh4.ooga.grep.out.GrepResultOut;
-import org.apache.poi.hwpf.HWPFDocument;
-import org.apache.poi.hwpf.usermodel.CharacterRun;
-import org.apache.poi.hwpf.usermodel.Paragraph;
-import org.apache.poi.hwpf.usermodel.Range;
-import org.apache.poi.hwpf.usermodel.Section;
-import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
+import jp.sh4.ooga.ms.grep.SearchTypes;
+import jp.sh4.ooga.ms.grep.comparison.NumericComparison;
+import jp.sh4.ooga.ms.grep.comparison.StringComparison;
+import jp.sh4.ooga.ms.grep.out.GrepResultOut;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellReference;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -16,13 +14,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Word Grep Main Class.
+ * Excel Grep Main Class.
  * このクラスへのパラメータの設定はコンストラクタからのみ行えます。
  *
  * @author sh-ogawa
  * @since 0.1.0
  */
-public class WordGrep {
+public class ExcelGrep {
 
     private final String searchWord;
     private final SearchTypes searchType;
@@ -35,7 +33,7 @@ public class WordGrep {
      * @param searchWord 検索文字
      * @param searchType 検索タイプ
      */
-    public WordGrep(final String searchWord, final SearchTypes searchType) {
+    public ExcelGrep(final String searchWord, final SearchTypes searchType) {
         this.searchWord = searchWord;
         this.searchType = searchType;
     }
@@ -45,7 +43,7 @@ public class WordGrep {
      */
     public void moveTempFile() {
         try {
-            Files.move(tempFile, Paths.get("wordgrep-result.tsv"));
+            Files.move(tempFile, Paths.get("excelgrep-result.tsv"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,7 +69,7 @@ public class WordGrep {
      * @throws IOException
      */
     public boolean grepOutTempFile(final String searchDir) throws IOException {
-        tempFile = Files.createTempFile("wordgrep", ".tmp");
+        tempFile = Files.createTempFile("excelgrep", ".tmp");
         System.out.println(tempFile.toFile().getAbsolutePath());
         try (OutputStream outStream = Files.newOutputStream(tempFile)) {
             out = new GrepResultOut(outStream);
@@ -95,14 +93,16 @@ public class WordGrep {
             public boolean accept(File dir, String fileName) {
 
                 //ExcelのBOOKファイルだけを対象とするため、それ以外のファイルと隠しディレクトリは無視する。
-                if (fileName.startsWith(".") || fileName.startsWith("~$")) {
+                if (fileName.startsWith(".")) {
                     return false;
                 }
 
                 String absPath = dir.getAbsolutePath() + File.separator + fileName;
+
                 Path path = Paths.get(absPath);
+
                 if (Files.isRegularFile(path)
-                        && (absPath.endsWith(".doc") || absPath.endsWith(".docx"))) {
+                        && (absPath.endsWith(".xls") || absPath.endsWith(".xlsx"))) {
                     return true;
                 } else if (Files.isDirectory(path)) {
                     return grepOutTempFile(absPath, true);
@@ -133,31 +133,53 @@ public class WordGrep {
      */
     private void exeSearchWord(final File targetFile) {
 
-        HWPFDocument document = null;
-        System.out.println("読み込み開始[" + targetFile.getAbsolutePath() + "]");
-        try (NPOIFSFileSystem fs = new NPOIFSFileSystem(targetFile)) {
-            document = new HWPFDocument(fs.getRoot());
-            Range range = document.getRange();
-            for(int i=0; i<range.numSections(); i++){
-                Section section = range.getSection(i);
-                for (int j = 0; j < section.numParagraphs(); j++) {
-                    Paragraph paragraph = section.getParagraph(j);
-                    for (int k = 0; k < paragraph.numCharacterRuns(); k++) {
-                        CharacterRun run = paragraph.getCharacterRun(k);
-                        String line = run.text();
-                        if (StringComparison.compare(line, searchWord, searchType)) {
-                            out.wirte(targetFile.getAbsolutePath(), "", "", line);
+        Workbook workbook = null;
+
+        try (InputStream inputStream = new FileInputStream(targetFile)) {
+
+            workbook = WorkbookFactory.create(inputStream);
+            int numberOfSheets = workbook.getNumberOfSheets();
+            for (int i = 0; i < numberOfSheets; i++) {
+                final Sheet sheet = workbook.getSheetAt(i);
+                final String sheetName = sheet.getSheetName();
+
+                int lastRowNum = sheet.getLastRowNum();
+                for (int j = 0; j <= lastRowNum; j++) {
+                    Row row = sheet.getRow(j);
+                    if (row == null) continue;
+                    short lastCellNum = row.getLastCellNum();
+                    for (int k = 0; k < lastCellNum; k++) {
+                        Cell cell = row.getCell(k);
+                        if (cell == null) continue;
+                        String cellRef = (new CellReference(cell)).formatAsString();
+
+                        //セルの書式により、検索の仕方が異なるやり方で対応できるようにしておく。
+                        int cellType = cell.getCellType();
+                        switch (cellType) {
+                            case Cell.CELL_TYPE_STRING:
+                                String targetStr = cell.getStringCellValue();
+                                if (StringComparison.compare(targetStr, searchWord, searchType)) {
+                                    out.wirte(targetFile.getAbsolutePath(), sheetName, cellRef, targetStr);
+                                }
+                                break;
+
+                            case Cell.CELL_TYPE_NUMERIC:
+                                double targetNum = cell.getNumericCellValue();
+                                if (NumericComparison.compare(targetNum, searchWord, searchType)) {
+                                    out.wirte(targetFile.getAbsolutePath(), sheetName, cellRef
+                                            , String.valueOf(targetNum));
+                                }
+                                break;
+                            default:
                         }
+
                     }
                 }
+
             }
-
-            System.out.println("読み込み終了[" + targetFile.getAbsolutePath() + "]");
-
-        } catch (IOException e) {
-            System.out.println("読めなかったファイル[" + targetFile.getAbsolutePath() + "]");
+        } catch (InvalidFormatException | IOException e) {
+            e.printStackTrace();
         }
     }
-
 
 }
