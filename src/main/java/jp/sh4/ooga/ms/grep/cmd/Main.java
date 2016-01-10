@@ -1,3 +1,5 @@
+package jp.sh4.ooga.ms.grep.cmd;
+
 import java.io.*;
 
 import jp.sh4.ooga.ms.grep.SearchTypes;

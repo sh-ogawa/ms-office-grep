@@ -1,3 +1,4 @@
+import jp.sh4.ooga.ms.grep.cmd.Main;
 import org.junit.Test;
 
 public class MainTest {

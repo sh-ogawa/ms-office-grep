@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Word Grep Main Class.
+ * Word Grep jp.sh4.ooga.ms.grep.cmd.Main Class.
  * このクラスへのパラメータの設定はコンストラクタからのみ行えます。
  *
  * @author sh-ogawa

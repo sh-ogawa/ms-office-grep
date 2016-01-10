@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jp.sh4.ooga.ms.grep.gui.Controller">
+<GridPane alignment="center" hgap="10" vgap="10"
+          xmlns="http://javafx.com/javafx/8.0.40"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="jp.sh4.ooga.ms.grep.gui.Controller">
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />
@@ -21,9 +24,12 @@
    <children>
       <Label prefHeight="16.0" prefWidth="65.0" text="検索ワード" />
       <Label text="検索ディレクトリ" GridPane.rowIndex="1" />
+      <Label text="出力先ファイル" GridPane.rowIndex="2" />
       <TextField fx:id="searchWord" GridPane.columnIndex="1" />
       <TextField fx:id="searchDir" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Button alignment="BASELINE_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="実行" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-      <Button mnemonicParsing="false" text="参照" GridPane.columnIndex="2" GridPane.rowIndex="1" onAction="#reference"/>
+      <TextField fx:id="resultOutPath" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Button mnemonicParsing="false" text="参照" GridPane.columnIndex="2" GridPane.rowIndex="1" onAction="#referenceInDir"/>
+      <Button mnemonicParsing="false" text="参照" GridPane.columnIndex="2" GridPane.rowIndex="2" onAction="#referenceOutFile"/>
+      <Button alignment="BASELINE_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="実行" GridPane.columnIndex="2" GridPane.rowIndex="3" onAction="#searchExecute"/>
    </children>
 </GridPane>

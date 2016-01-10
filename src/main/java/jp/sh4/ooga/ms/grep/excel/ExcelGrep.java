@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Excel Grep Main Class.
+ * Excel Grep jp.sh4.ooga.ms.grep.cmd.Main Class.
  * このクラスへのパラメータの設定はコンストラクタからのみ行えます。
  *
  * @author sh-ogawa
