@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 <?import java.net.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" vgap="10"
-          xmlns="http://javafx.com/javafx/8.0.40"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="jp.sh4.ooga.ms.grep.gui.Controller">
+<GridPane alignment="center" hgap="10" prefHeight="144.0" prefWidth="578.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="jp.sh4.ooga.ms.grep.gui.Controller">
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />
@@ -20,16 +19,32 @@
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
    </rowConstraints>
    <children>
       <Label prefHeight="16.0" prefWidth="65.0" text="検索ワード" />
       <Label text="検索ディレクトリ" GridPane.rowIndex="1" />
-      <Label text="出力先ファイル" GridPane.rowIndex="2" />
-      <TextField fx:id="searchWord" GridPane.columnIndex="1" />
+      <Label text="出力先ディレクトリ" GridPane.rowIndex="2" />
+      <TextField fx:id="searchWord" prefHeight="26.0" prefWidth="400.0" GridPane.columnIndex="1" />
       <TextField fx:id="searchDir" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="resultOutPath" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <Button mnemonicParsing="false" text="参照" GridPane.columnIndex="2" GridPane.rowIndex="1" onAction="#referenceInDir"/>
-      <Button mnemonicParsing="false" text="参照" GridPane.columnIndex="2" GridPane.rowIndex="2" onAction="#referenceOutFile"/>
-      <Button alignment="BASELINE_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" text="実行" GridPane.columnIndex="2" GridPane.rowIndex="3" onAction="#searchExecute"/>
+      <Button mnemonicParsing="false" onAction="#referenceInDir" text="参照" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+      <Button mnemonicParsing="false" onAction="#referenceOutFile" text="参照" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Button alignment="BASELINE_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#searchExecute" text="実行" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+      <HBox prefHeight="0.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+         <children>
+            <CheckBox fx:id="chkExcel" mnemonicParsing="false" selected="true" text="Excel(xlsx, xls)" />
+            <CheckBox fx:id="chkWord" mnemonicParsing="false" selected="true" text="Word(docx, doc)">
+               <HBox.margin>
+                  <Insets left="30.0" />
+               </HBox.margin>
+            </CheckBox>
+         </children>
+      </HBox>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="検索結果は「excelgrep-result.tsv」と「wordgrep-result.tsv」に出力されます" GridPane.columnIndex="1" GridPane.rowIndex="4" />
    </children>
 </GridPane>
+

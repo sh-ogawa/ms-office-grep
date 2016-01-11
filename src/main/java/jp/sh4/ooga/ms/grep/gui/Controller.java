@@ -2,9 +2,9 @@ package jp.sh4.ooga.ms.grep.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.TextFieldListCell;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import jp.sh4.ooga.ms.grep.SearchTypes;
@@ -18,12 +18,14 @@ public class Controller {
 
     @FXML
     private TextField searchWord;
-
     @FXML
     private TextField searchDir;
-
     @FXML
     private TextField resultOutPath;
+    @FXML
+    private CheckBox chkExcel;
+    @FXML
+    private CheckBox chkWord;
 
     /**
      * 参照ボタン(検索ディレクトリ)クリック時のイベント
@@ -58,22 +60,43 @@ public class Controller {
     @FXML
     protected void searchExecute(final ActionEvent event){
 
-        ExcelGrep excel = new ExcelGrep(searchWord.getText(), SearchTypes.STRICTLY);
-        try {
-            excel.grepOutTempFile(searchDir.getText());
-            excel.moveTempFile();
-        } catch (IOException e) {
-            System.out.println("Excelファイルの検索に失敗しました");
-            e.printStackTrace();
+        if(searchWord.getText() == null){
+
         }
 
-        WordGrep word = new WordGrep(searchWord.getText(), SearchTypes.STRICTLY);
-        try {
-            word.grepOutTempFile(searchDir.getText());
-            word.moveTempFile();
-        } catch (IOException e) {
-            System.out.println("Wordファイルの検索に失敗しました");
-            e.printStackTrace();
+        if(!(chkExcel.isSelected() && chkWord.isSelected())){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("INFO");
+            alert.setHeaderText("チェックボックスを選択してください");
+            alert.show();
+            return;
+        }
+
+        if(chkExcel.isSelected()){
+            ExcelGrep excel = new ExcelGrep(searchWord.getText(), SearchTypes.STRICTLY);
+            try {
+                excel.grepOutTempFile(searchDir.getText());
+                excel.moveTempFile();
+            } catch (IOException e) {
+                System.out.println("Excelファイルの検索に失敗しました");
+                e.printStackTrace();
+            }
+        }
+
+        if(chkWord.isSelected()){
+            WordGrep word = new WordGrep(searchWord.getText(), SearchTypes.STRICTLY);
+            try {
+                word.grepOutTempFile(searchDir.getText());
+                word.moveTempFile();
+            } catch (IOException e) {
+                System.out.println("Wordファイルの検索に失敗しました");
+                e.printStackTrace();
+            }
         }
     }
+
+    private void valide(){
+
+    }
+
 }
