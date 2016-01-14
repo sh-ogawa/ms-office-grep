@@ -9,6 +9,9 @@ import org.apache.poi.hwpf.usermodel.Paragraph;
 import org.apache.poi.hwpf.usermodel.Range;
 import org.apache.poi.hwpf.usermodel.Section;
 import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -133,9 +136,20 @@ public class WordGrep {
      */
     private void exeSearchWord(final File targetFile) {
 
+        if(targetFile.getName().endsWith(".doc")){
+            grepDoc(targetFile);
+        }else{
+            grepDocx(targetFile);
+        }
+
+
+    }
+
+    private void grepDoc(final File targetFile){
         HWPFDocument document = null;
         System.out.println("読み込み開始[" + targetFile.getAbsolutePath() + "]");
-        try (NPOIFSFileSystem fs = new NPOIFSFileSystem(targetFile)) {
+        try (InputStream in = new FileInputStream(targetFile)) {
+            POIFSFileSystem fs = new POIFSFileSystem(in);
             document = new HWPFDocument(fs.getRoot());
             Range range = document.getRange();
             for(int i=0; i<range.numSections(); i++){
@@ -159,5 +173,18 @@ public class WordGrep {
         }
     }
 
+    private void grepDocx(final File targetFile){
+        System.out.println("読み込み開始[" + targetFile.getAbsolutePath() + "]");
+        try (InputStream in = new FileInputStream(targetFile)) {
+            XWPFDocument document = new XWPFDocument(in);
+            XWPFWordExtractor we = new XWPFWordExtractor(document);
+            System.out.println(we.getText());
+
+            System.out.println("読み込み終了[" + targetFile.getAbsolutePath() + "]");
+
+        } catch (IOException e) {
+            System.out.println("読めなかったファイル[" + targetFile.getAbsolutePath() + "]");
+        }
+    }
 
 }

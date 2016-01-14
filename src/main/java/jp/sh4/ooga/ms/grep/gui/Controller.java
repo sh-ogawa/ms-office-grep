@@ -73,7 +73,7 @@ public class Controller {
         }
 
         if(chkExcel.isSelected()){
-            ExcelGrep excel = new ExcelGrep(searchWord.getText(), SearchTypes.STRICTLY);
+            ExcelGrep excel = new ExcelGrep(searchWord.getText(), SearchTypes.FUZZY);
             try {
                 excel.grepOutTempFile(searchDir.getText());
                 excel.moveTempFile();
@@ -84,7 +84,7 @@ public class Controller {
         }
 
         if(chkWord.isSelected()){
-            WordGrep word = new WordGrep(searchWord.getText(), SearchTypes.STRICTLY);
+            WordGrep word = new WordGrep(searchWord.getText(), SearchTypes.FUZZY);
             try {
                 word.grepOutTempFile(searchDir.getText());
                 word.moveTempFile();
