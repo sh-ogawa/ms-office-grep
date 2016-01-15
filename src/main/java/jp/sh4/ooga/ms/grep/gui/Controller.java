@@ -61,7 +61,11 @@ public class Controller {
     protected void searchExecute(final ActionEvent event){
 
         if(searchWord.getText() == null){
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("INFO");
+            alert.setHeaderText("検索ワードを入力してください");
+            alert.show();
+            return;
         }
 
         if(!(chkExcel.isSelected() && chkWord.isSelected())){
@@ -93,6 +97,12 @@ public class Controller {
                 e.printStackTrace();
             }
         }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("INFO");
+        alert.setHeaderText("検索が終わりました");
+        alert.show();
+
     }
 
     private void valide(){

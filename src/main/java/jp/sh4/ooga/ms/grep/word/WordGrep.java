@@ -12,11 +12,13 @@ import org.apache.poi.poifs.filesystem.NPOIFSFileSystem;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * Word Grep jp.sh4.ooga.ms.grep.cmd.Main Class.
@@ -48,7 +50,9 @@ public class WordGrep {
      */
     public void moveTempFile() {
         try {
-            Files.move(tempFile, Paths.get("wordgrep-result.tsv"));
+            Path path = Paths.get("wordgrep-result.tsv");
+            Files.deleteIfExists(path);
+            Files.move(tempFile, path);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -177,8 +181,12 @@ public class WordGrep {
         System.out.println("読み込み開始[" + targetFile.getAbsolutePath() + "]");
         try (InputStream in = new FileInputStream(targetFile)) {
             XWPFDocument document = new XWPFDocument(in);
-            XWPFWordExtractor we = new XWPFWordExtractor(document);
-            System.out.println(we.getText());
+            List<XWPFParagraph> paragraphs = document.getParagraphs();
+            for (XWPFParagraph para : paragraphs) {
+                if (StringComparison.compare(para.getText(), searchWord, searchType)) {
+                    out.wirte(targetFile.getAbsolutePath(), "", "", para.getText());
+                }
+            }
 
             System.out.println("読み込み終了[" + targetFile.getAbsolutePath() + "]");
 

@@ -43,7 +43,9 @@ public class ExcelGrep {
      */
     public void moveTempFile() {
         try {
-            Files.move(tempFile, Paths.get("excelgrep-result.tsv"));
+            Path path = Paths.get("excelgrep-result.tsv");
+            Files.deleteIfExists(path);
+            Files.move(tempFile, path);
         } catch (IOException e) {
             e.printStackTrace();
         }
