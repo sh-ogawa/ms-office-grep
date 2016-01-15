@@ -59,7 +59,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>jp.sh4.ooga.ms.grep.cmd.Main</mainClass>
+                            <mainClass>jp.sh4.ooga.ms.grep.gui.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -79,7 +79,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>jp.sh4.ooga.ms.grep.cmd.Main</mainClass>
+                            <mainClass>jp.sh4.ooga.ms.grep.gui.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
