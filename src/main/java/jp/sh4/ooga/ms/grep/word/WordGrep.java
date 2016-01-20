@@ -33,6 +33,7 @@ public class WordGrep {
     private final SearchTypes searchType;
     private Path tempFile;
     private GrepResultOut out;
+    private String outDir;
 
     /**
      * コンストラクタ
@@ -40,9 +41,10 @@ public class WordGrep {
      * @param searchWord 検索文字
      * @param searchType 検索タイプ
      */
-    public WordGrep(final String searchWord, final SearchTypes searchType) {
+    public WordGrep(final String searchWord, final SearchTypes searchType, final String outDir) {
         this.searchWord = searchWord;
         this.searchType = searchType;
+        this.outDir = outDir;
     }
 
     /**
@@ -50,7 +52,9 @@ public class WordGrep {
      */
     public void moveTempFile() {
         try {
-            Path path = Paths.get("wordgrep-result.tsv");
+            Path path = outDir == null ?
+                    Paths.get("wordgrep-result.tsv")
+                    : Paths.get(outDir + File.separator + "wordgrep-result.tsv");
             Files.deleteIfExists(path);
             Files.move(tempFile, path);
         } catch (IOException e) {

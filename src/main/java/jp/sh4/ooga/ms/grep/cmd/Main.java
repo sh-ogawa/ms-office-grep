@@ -79,11 +79,11 @@ public class Main {
             System.out.println("置換文字列：" + REPLACE_WORD);
         }
 
-        ExcelGrep excel = new ExcelGrep(SEARCH_WORD, SEARCH_MODE);
+        ExcelGrep excel = new ExcelGrep(SEARCH_WORD, SEARCH_MODE, null);
         excel.grepOutTempFile(searchDirPath);
         excel.moveTempFile();
 
-        WordGrep word = new WordGrep(SEARCH_WORD, SEARCH_MODE);
+        WordGrep word = new WordGrep(SEARCH_WORD, SEARCH_MODE, null);
         word.grepOutTempFile(searchDirPath);
         word.moveTempFile();
 

@@ -26,6 +26,7 @@ public class ExcelGrep {
     private final SearchTypes searchType;
     private Path tempFile;
     private GrepResultOut out;
+    private String outDir;
 
     /**
      * コンストラクタ
@@ -33,17 +34,20 @@ public class ExcelGrep {
      * @param searchWord 検索文字
      * @param searchType 検索タイプ
      */
-    public ExcelGrep(final String searchWord, final SearchTypes searchType) {
+    public ExcelGrep(final String searchWord, final SearchTypes searchType, final String outDir) {
         this.searchWord = searchWord;
         this.searchType = searchType;
+        this.outDir = outDir;
     }
 
     /**
      * Grep結果を書き込んだ一時ファイルを移動します。
      */
     public void moveTempFile() {
-        try {
-            Path path = Paths.get("excelgrep-result.tsv");
+        try{
+            Path path = outDir == null ?
+                    Paths.get("excelgrep-result.tsv")
+                    : Paths.get(outDir + File.separator + "excelgrep-result.tsv");
             Files.deleteIfExists(path);
             Files.move(tempFile, path);
         } catch (IOException e) {

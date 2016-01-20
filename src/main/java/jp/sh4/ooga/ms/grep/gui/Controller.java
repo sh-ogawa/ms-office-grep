@@ -46,9 +46,9 @@ public class Controller {
      */
     @FXML
     protected void referenceOutFile(final ActionEvent event){
-        FileChooser chooser = new FileChooser();
+        DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("出力ファイル");
-        File f = chooser.showOpenDialog(null);
+        File f = chooser.showDialog(null);
         if(f == null) return;
         resultOutPath.setText(f.getAbsolutePath());
     }
@@ -77,7 +77,7 @@ public class Controller {
         }
 
         if(chkExcel.isSelected()){
-            ExcelGrep excel = new ExcelGrep(searchWord.getText(), SearchTypes.FUZZY);
+            ExcelGrep excel = new ExcelGrep(searchWord.getText(), SearchTypes.FUZZY, resultOutPath.getText());
             try {
                 excel.grepOutTempFile(searchDir.getText());
                 excel.moveTempFile();
@@ -88,7 +88,7 @@ public class Controller {
         }
 
         if(chkWord.isSelected()){
-            WordGrep word = new WordGrep(searchWord.getText(), SearchTypes.FUZZY);
+            WordGrep word = new WordGrep(searchWord.getText(), SearchTypes.FUZZY, resultOutPath.getText());
             try {
                 word.grepOutTempFile(searchDir.getText());
                 word.moveTempFile();
