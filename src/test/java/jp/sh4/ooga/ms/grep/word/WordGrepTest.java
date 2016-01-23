@@ -24,7 +24,7 @@ public class WordGrepTest {
     public void Wordドキュメントの検索を行う() throws IOException {
 
         WordGrep word = new WordGrep("Oracle", SearchTypes.FUZZY, null);
-        word.grepOutTempFile("C:\\work\\DTEMS\\200開発環境");
+        word.grepOutTempFile("C:\\work\\200開発環境");
         word.moveTempFile();
 
     }
