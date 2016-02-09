@@ -25,4 +25,3 @@ https://github.com/sh-ogawa/ms-office-grep/releases
 ##4.動作確認環境
  - Java 1.8
  - Win7 Pro
- - 
