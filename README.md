@@ -12,14 +12,16 @@ MS-Office（ExcelとWord）の検索ツール。
 （Wordの場合はファイルを開くのみです）
 
 ##2.使い方
-####(1)jarファイル作成
-ソースをチェックアウトし、  
-mvn install  
-コマンドで実行可能jarファイルを作成してください。
+####ダウンロード
+以下に実行可能jarがあるので、ダウンロードしてください。
+https://github.com/sh-ogawa/ms-office-grep/releases
+ - ms-office-grep-0.1.0.jar
 
-excelgrep-0.0.1-SNAPSHOT-jar-with-dependencies
-が生成されます。
+ダブルクリックで実行が可能です。
 
-####(2)実行可能jarファイルを実行
-excelgrep-0.0.1-SNAPSHOT-jar-with-dependenciesを実行すると検索ウィンドウが表示するので
-必要な情報を入力して実行してください。
+##3.動作環境
+ - Java 1.8 or later
+
+##4.動作確認環境
+ - Java 1.8
+ - Win7 Pro
