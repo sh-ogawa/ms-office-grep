@@ -3,6 +3,7 @@ package jp.sh4.ooga.ms.grep.word;
 import jp.sh4.ooga.ms.grep.SearchTypes;
 import jp.sh4.ooga.ms.grep.comparison.StringComparison;
 import jp.sh4.ooga.ms.grep.out.GrepResultOut;
+import org.apache.poi.EmptyFileException;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.usermodel.CharacterRun;
 import org.apache.poi.hwpf.usermodel.Paragraph;
@@ -160,7 +161,7 @@ public class WordGrep {
             POIFSFileSystem fs = new POIFSFileSystem(in);
             document = new HWPFDocument(fs.getRoot());
             Range range = document.getRange();
-            for(int i=0; i<range.numSections(); i++){
+            for (int i = 0; i < range.numSections(); i++) {
                 Section section = range.getSection(i);
                 for (int j = 0; j < section.numParagraphs(); j++) {
                     Paragraph paragraph = section.getParagraph(j);
@@ -176,6 +177,9 @@ public class WordGrep {
 
             System.out.println("読み込み終了[" + targetFile.getAbsolutePath() + "]");
 
+        } catch (EmptyFileException e){
+            //blankファイルは読みとばす
+            
         } catch (IOException e) {
             System.out.println("読めなかったファイル[" + targetFile.getAbsolutePath() + "]");
         }

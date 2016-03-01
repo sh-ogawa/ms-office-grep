@@ -4,6 +4,7 @@ import jp.sh4.ooga.ms.grep.SearchTypes;
 import jp.sh4.ooga.ms.grep.comparison.NumericComparison;
 import jp.sh4.ooga.ms.grep.comparison.StringComparison;
 import jp.sh4.ooga.ms.grep.out.GrepResultOut;
+import org.apache.poi.EmptyFileException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellReference;
@@ -183,6 +184,8 @@ public class ExcelGrep {
                 }
 
             }
+        } catch (EmptyFileException e){
+            //blankファイルは読みとばす
         } catch (InvalidFormatException | IOException e) {
             e.printStackTrace();
         }
