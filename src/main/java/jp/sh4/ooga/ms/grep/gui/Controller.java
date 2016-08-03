@@ -68,7 +68,7 @@ public class Controller {
             return;
         }
 
-        if(!(chkExcel.isSelected() && chkWord.isSelected())){
+        if(!chkExcel.isSelected() && !chkWord.isSelected()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("INFO");
             alert.setHeaderText("チェックボックスを選択してください");
